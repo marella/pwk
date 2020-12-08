@@ -28,9 +28,9 @@ default() {
 }
 
 main() {
-    func=kube_"$1"
-    if [[ -n `declare -f "$func"` ]]; then
-        "$func" "${@:2}"
+    local cmd=kube_"$1"
+    if [[ -n `declare -f "$cmd"` ]]; then
+        "$cmd" "${@:2}"
     else
         default "$@"
     fi
