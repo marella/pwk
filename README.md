@@ -26,7 +26,7 @@ Delete resources using a configuration file:
 kube down https://file.marella.me/pwk/latest/echo.yaml
 ```
 
-Use `kubectl` commands:
+Run `kubectl` commands:
 
 ```sh
 kube get all
