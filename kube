@@ -38,7 +38,7 @@ main() {
 
 # utils
 
-# see: https://wiki.bash-hackers.org/snipplets/print_horizontal_line
+# see https://wiki.bash-hackers.org/snipplets/print_horizontal_line
 hr() {
     printf '%*s' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
