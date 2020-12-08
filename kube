@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+kube_init() {
+    echo "Initializing cluster..."
+    local out1="$(kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16 "$@")"
+    echo "Done"
+
+    echo "Deploying pod network..."
+    local out2="$(kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml)"
+    echo "Done"
+
+    echo "To add worker nodes to this cluster, run the following command on each node:"
+    hr
+    echo "$out1" | grep -A 1 --color=never "kubeadm join"
+    hr
+}
+
+kube_up() {
+    kubectl apply -f "$@"
+}
+
+kube_down() {
+    kubectl delete -f "$@"
+}
+
+default() {
+    kubectl "$@"
+}
+
+main() {
+    func=kube_"$1"
+    if [[ -n `declare -f "$func"` ]]; then
+        "$func" "${@:2}"
+    else
+        default "$@"
+    fi
+}
+
+# utils
+
+# see: https://wiki.bash-hackers.org/snipplets/print_horizontal_line
+hr() {
+    printf '%*s' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+}
+
+main "$@"
