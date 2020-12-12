@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 kube_init() {
     echo "Initializing cluster..."
     local out1="$(kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16 "$@")"
